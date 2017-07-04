@@ -1,0 +1,31 @@
+﻿<div id="samples-menu-container" style="overflow: auto">
+    <div class="panel panel-default" style="border-width: 0 !important;-webkit-box-shadow:none!important;box-shadow: none!important; ">
+        <div class="panel-heading" style="padding: 0">
+            <div class="btn-group" role="group" style="float: left; padding-right: 1px">
+                <button type="button" id="open-all-nodes" class="btn btn-default btn-secondary" aria-label="Open all nodes"
+                        title="Expand all nodes">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+                <button type="button" id="collaps-all-nodes" class="btn btn-default btn-secondary" aria-label="Collapse all nodes"
+                        title="Collapse all nodes">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="input-group">
+                <input type="text" id="search-input" class="form-control" title="Search a sample" placeholder="Search for...">
+                <div class="input-group-btn">
+                    <button type="button" id="search-button" class="btn btn-default btn-secondary" aria-label="Do search" title="Search">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" id="refresh-search" class="btn btn-default btn-secondary" aria-label="Clear" title="Clear search">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body" style="padding: 0 !important">
+            <div class="samples-menu-tree" #samplesMenuContainer>
+            </div>
+        </div>
+    </div>
+</div>

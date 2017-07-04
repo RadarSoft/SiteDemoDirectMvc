@@ -1,0 +1,51 @@
+﻿public override MvcOlapAnalysis OlapAnalysis
+{
+    get
+    {
+        if (_OlapAnalysis == null)
+        {
+            _OlapAnalysis = new MvcOlapAnalysis("MvcOlapAnalysis1");
+
+            _OlapAnalysis.AnalysisType = AnalysisType.Grid;
+
+            _OlapAnalysis.InitOlap += delegate { InitOlapAnalysis(); };
+
+            _OlapAnalysis.OnInitMeasures += OlapAnalysis_OnInitMeasures;
+
+            _OlapAnalysis.OnShowMeasure += OlapAnalysis_OnShowMeasure;
+
+            var cube = new MvcRCube
+            {
+                DataSet = new Northwind(),
+                ID = "Cube_MvcOlapAnalysis1",
+            };
+            cube.OnCalculateField += Cube_OnCalculateField;
+            _OlapAnalysis.Cube = cube;
+        }
+        return _OlapAnalysis;
+    }
+}
+
+protected override void InitLayout()
+{
+    OlapAnalysis.BeginUpdate();
+
+    THierarchy H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Products by categories");
+    OlapAnalysis.PivotingLast(H, TLayoutArea.laRow);
+
+    H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Date");
+    OlapAnalysis.PivotingLast(H, TLayoutArea.laColumn);
+
+    TMeasure M = OlapAnalysis.Measures.FindByDisplayName("Sales");
+    if (M != null)
+        OlapAnalysis.Pivoting(M, TLayoutArea.laRow, null);
+
+    M.Visible = true;
+
+    //Turn on the "Percent of Column Total" and "Rank by row" modes for the "Sales" measure
+    M.ShowModes.Find(TMeasureShowModeType.smPercentColTotal).Visible = true;
+
+    M.ShowModes.Find("Rank by row").Visible = true;
+
+    OlapAnalysis.EndUpdate();
+}

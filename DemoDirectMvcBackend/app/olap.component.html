@@ -1,0 +1,11 @@
+﻿<div [style.display]="panelVisibility==true?'block':'none'" class="panel panel-default" style="margin-top: 5px">
+    <div class="panel-heading">
+        <breadcrumbs-comp [sampleForBreadCrumbs]="sampleForOlap">
+        </breadcrumbs-comp>
+    </div>
+    <div id="samplesContainer" class="panel-body">
+        <div #radarCubeContainer>
+            <div class='ajax-loader'></div>
+        </div>
+    </div>
+</div>

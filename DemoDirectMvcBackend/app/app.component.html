@@ -1,0 +1,38 @@
+﻿<div class="container-fluid">
+    <nav class="navbar-inverse jumbotron bg-product" style="clear: both;">
+        <div class="navbar-header">
+            <button id="samples-menu-button" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar2"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <h3 id="product-name">{{productName}}</h3>
+        </div>
+        <div id="navbar2" class="navbar-collapse collapse" style="padding-right: 0">
+            <div id="samples-menu-clone" class="nav navbar-nav navbar-right">
+                <samples-menu-clone-comp></samples-menu-clone-comp>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container" style="margin:0px 15px 0px 15px">
+    <div class="row">
+        <div class="col-sm-3 col-md-3 samples-menu-col">
+            <samples-menu-comp (onMenuSampleChanged)="menuSampleChanged($event)">
+            </samples-menu-comp>
+        </div>
+        <div class="col-sm-9 col-md-9 samples-col">
+            <olap-comp [sampleForOlap]="sample">
+            </olap-comp>
+            <description-comp [sampleForDescription]="sample">
+            </description-comp>
+            <tabs-comp [sampleForTabs]="sample">
+            </tabs-comp>
+        </div>
+    </div>
+</div>
+
+
+

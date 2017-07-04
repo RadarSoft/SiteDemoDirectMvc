@@ -1,0 +1,26 @@
+﻿namespace ROlapAspNet4Mvc.Samples.Controllers
+{
+    public class OlapAnalysisController : Controller
+    {        
+        public ActionResult Initialize()
+        {
+            var model = new SamplesModel();
+            return View(model);
+        }
+
+        [AjaxOnly]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult CallbackHandler()
+        {
+            var model = new SamplesModel();
+            return Json(model.OlapAnalysis.DoCallback(), JsonRequestBehavior.DenyGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public BinaryStreamResult ExportHandler()
+        {
+            var model = new SamplesModel();
+            return model.OlapAnalysis.DoExport();
+        }
+    }
+}

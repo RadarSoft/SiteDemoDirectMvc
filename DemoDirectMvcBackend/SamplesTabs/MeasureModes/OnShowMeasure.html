@@ -1,0 +1,29 @@
+﻿private void OlapAnalysis_OnShowMeasure(object sender, TShowMeasureArgs e)
+{
+    if (e.ShowMode.Caption == "Rank by row")
+    {
+        //Assign an empty value to cells which rank is impossible to calculate
+        e.ReturnValue = "";
+        //If a cell is empty, then return
+        if (!(e.OriginalData is IComparable))
+            return;
+        //Set the initial rank value
+        int Rank = 1;
+        //A cycle over all members which are neighbor for a given one in the row area
+        IComparable cmp = e.OriginalData as IComparable;
+        for (int i = 0; i < e.RowSiblings.Count; i++)
+        {
+            //If a value of the neighbor cell is greater that the current, then to increase the rank variable
+            try
+            {
+                if (cmp.CompareTo(e.Evaluator.SiblingValue(e.RowSiblings[i])) < 0)
+                    Rank++;
+            }
+            catch
+            {; }
+        }
+        //Assign the return event values
+        e.ReturnValue = Rank.ToString();
+        e.ReturnData = Rank;
+    }
+}

@@ -1,0 +1,12 @@
+﻿private void DoActive()
+{
+    if (OlapAnalysis.Cube.Active)
+        OlapAnalysis.ClearAxesLayout();
+
+    if (OlapAnalysis.Cube.Active == false)
+    {
+        InitCubeStructure();
+        ((MvcRCube)OlapAnalysis.Cube).FactTableName = "Order Details";
+        OlapAnalysis.Cube.Active = true;
+    }
+}

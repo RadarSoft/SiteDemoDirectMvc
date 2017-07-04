@@ -1,0 +1,133 @@
+.bg-product {
+    margin: -25px -15px 0 -15px;
+    background-color: #94c3f0;
+    border-radius: 0 !important;
+}
+
+.samples-menu-col {
+    padding-top: 5px;
+    padding-right: 0!important;
+}
+
+
+#product-name {
+    margin-top: 10px;
+}
+
+#navbar li > a {
+}
+
+.samples-container {
+    padding: 2px !important;
+    /*height: 505px;*/
+    font-size: 12px;
+}
+
+.description-panel, .tabs-panel {
+    margin-top: 5px;
+}
+
+#samples-menu-button {
+    float: left;
+}
+
+@media (max-width: 768px) {
+    .samples-menu-col {
+        display: none;
+    }
+
+    .bg-product h3 {
+        font-size: 17px;
+        margin-top: 5px!important;
+    }
+}
+
+@media (min-width: 768px) {
+    #samples-menu-clone {
+        display: none;
+    }
+}
+
+.footer {
+    margin-top: 5px;
+}
+
+.ajax-loader, .ajax-loader-olap {
+    height: 100px;
+    position: relative;
+    background-image: url(../images/ajax-loader.gif);
+    background-repeat: no-repeat;
+    background-position: center, center;
+}
+
+.ajax-loader-olap {
+    height: 500px;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+
+/*
+.rc_olapgrid, .ui-dialog, .ui-dialog legend {
+    font-size: 12px !important;
+}*/
+
+
+.breadcrumb {
+    margin: 0!important;
+    padding: 0!important;
+}
+
+ul.context-menu-list {
+    z-index: 100!important;
+}
+
+.node-selected {
+    color: white!important;
+}
+
+li.search-result {
+    background-color: orange;
+}
+
+.selected-item {
+    background-color: #428bca;
+    color: white!important;
+}
+
+.selected-item a {
+    color: white!important;
+}
+
+.context-menu-hover, .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #434A54!important;
+    background-color: #ecf0f1!important;
+}
+
+.dropdown-menu > li > a, .breadcrumb > .active {
+    color: #434A54;
+}
+
+pre {
+    padding: 0 !important;
+}
+
+.btn-default {
+    background-color: #94c3f0;
+    border-color: #94c3f0;
+}
+
+.form-control {
+    height: 46px;
+}
+
+.samples-menu-tree span.icon, .samples-menu-tree-clone span.icon {
+    width: 9px !important;
+}
+
+.samples-menu-tree li, .samples-menu-tree-clone li {
+    margin: 0 !important;
+    padding: 5px !important;
+}

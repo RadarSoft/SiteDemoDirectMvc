@@ -1,0 +1,10 @@
+﻿// Adding the calculated hierarchy "Employee Name" into the "Employees" dimension.
+// The "Employee Name" column is calculated in the TOLAPCube.OnCalculateField even handler.
+cube.AddCalculatedColumn(d.Employees, "Employee Name", typeof(String));
+cube.AddHierarchy("Employees", d.Employees, "Employee Name", "ReportsTo", "Employees");
+
+// Just the same thing might be done with the follow code:
+// cube.AddCalculatedHierarchy("Employees", d.Employees, typeof(string), "Employee Name");
+
+// Adding the "Sales" measure. It is calculated in the TOLAPCube.OnCalculateField even handler.
+cube.AddCalculatedMeasure(d.Order_Details, typeof(double), "Sales");

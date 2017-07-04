@@ -1,0 +1,8 @@
+﻿[AjaxOnly]
+[AcceptVerbs(HttpVerbs.Post)]
+public JsonResult CallbackHandler()
+{
+    var model = new SamplesModel();
+    var olapControl = model.CreateOlapAnalysis();
+    return Json(olapControl.DoCallback(), JsonRequestBehavior.DenyGet);
+}

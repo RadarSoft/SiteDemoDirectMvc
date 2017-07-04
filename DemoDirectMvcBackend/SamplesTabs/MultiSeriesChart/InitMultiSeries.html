@@ -1,0 +1,24 @@
+﻿private void InitLayout()
+{
+    OlapAnalysis.BeginUpdate();
+
+    TMeasure M = OlapAnalysis.Measures.FindByDisplayName("Sales");
+    OlapAnalysis.Pivoting(M, TLayoutArea.laRow);
+
+    M = OlapAnalysis.Measures.FindByDisplayName("Quantity");
+
+    TMeasureGroup mg = ((TChartAxesLayout)OlapAnalysis.AxesLayout).YAxis[0];
+
+    OlapAnalysis.Pivoting(M, TLayoutArea.laRow, mg, TLayoutArea.laRow);
+
+    M.DefineChartMeasureType(SeriesType.Bar);
+
+    THierarchy H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Shippers");
+    OlapAnalysis.PivotingLast(H, TLayoutArea.laColumn);
+
+    H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Categories");
+    OlapAnalysis.PivotingLast(H, TLayoutArea.laColumn);
+    OlapAnalysis.PivotingLast(H, TLayoutArea.laColor);
+
+    OlapAnalysis.EndUpdate();
+}

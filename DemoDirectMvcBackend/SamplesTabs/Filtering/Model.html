@@ -1,0 +1,154 @@
+﻿namespace ROlapAspNet4Mvc.Samples.Models
+{
+    public class SamplesModel
+    {
+        private MvcOlapAnalysis _OlapAnalysis;
+        public MvcOlapAnalysis OlapAnalysis
+        {
+            get
+            {
+                if (_OlapAnalysis == null)
+                {
+                    _OlapAnalysis = new MvcOlapAnalysis("MvcOlapAnalysis1");
+
+                    OlapAnalysis.InitOlap += delegate { InitOlapAnalysis(); };
+
+                    var cube = new MvcRCube
+                    {
+                        DataSet = new Northwind(),
+                        ID = "Cube_MvcOlapAnalysis1",
+                    };
+
+                    _OlapAnalysis.Cube = cube;
+                    cube.OnCalculateField += Cube_OnCalculateField;
+                }
+                return _OlapAnalysis;
+            }
+        }
+
+        private void InitOlapAnalysis()
+        {
+            InitOlapControl();
+            DoActive();
+            InitLayout();
+        }
+
+        private void InitOlapControl()
+        {
+            OlapAnalysis.CallbackController = "OlapAnalysis";
+            OlapAnalysis.CallbackAction = "CallbackHandler";
+            OlapAnalysis.ExportController = "OlapAnalysis";
+            OlapAnalysis.ExportAction = "ExportHandler";
+        }
+
+        private void DoActive()
+        {
+            if (OlapAnalysis.Cube.Active)
+                OlapAnalysis.ClearAxesLayout();
+
+            if (OlapAnalysis.Cube.Active == false)
+            {
+                InitCubeStructure();
+                ((MvcRCube)OlapAnalysis.Cube).FactTableName = "Order Details";
+                OlapAnalysis.Cube.Active = true;
+            }
+        }
+
+        private void InitCubeStructure()
+        {
+            var cube = OlapAnalysis.Cube as TOLAPCube;
+            var d = cube.DataSet as Northwind;
+            if (d == null)
+                throw new ApplicationException("The cube's DataSet property must be assigned before setting up the structure");
+            // Create dimensions and hierarchies
+            cube.AddHierarchy("Shippers", d.Shippers, "CompanyName", "", "Shippers");
+            // Make 3 hierarchies in the "Products" dimension: "Products", "Categories", and "Suppliers"
+            TCubeHierarchy H1 = cube.AddHierarchy("Products", d.Products, "ProductName", "", "Products");
+            TCubeHierarchy H2 = cube.AddHierarchy("Products", d.Categories, "CategoryName", "", "Categories");
+            TCubeHierarchy H3 = cube.AddHierarchy("Products", d.Suppliers, "CompanyName", "", "Suppliers");
+            // Make two composite (multilevel) hierarchies 
+            cube.MakeUpCompositeHierarchy("Products", "Products by categories", new TCubeHierarchy[] { H2, H1 });
+            cube.MakeUpCompositeHierarchy("Products", "Products by suppliers", new string[] { "Suppliers", "Products" });
+            // Add BI time hierarchies: "Year", "Quarter", "Month"...
+            cube.AddBIHierarchy("Time", d.Orders, "Year", "OrderDate", TBIMembersType.ltTimeYear);
+            cube.AddBIHierarchy("Time", d.Orders, "Quarter", "OrderDate", TBIMembersType.ltTimeQuarter);
+            cube.AddBIHierarchy("Time", d.Orders, "Month", "OrderDate", TBIMembersType.ltTimeMonthLong);
+            // ... and combine them into a single "Date" hierarchy
+            cube.MakeUpCompositeHierarchy("Time", "Date", new string[] { "Year", "Quarter", "Month" });
+
+            // The two lines add the calculated hierarchy "Employee Name" into the "Employees" dimension:
+            // The "Employee Name" column must be calculated in the TOLAPCube1.OnCalculateField even handler
+            cube.AddCalculatedColumn(d.Employees, "Employee Name", typeof(String));
+            cube.AddHierarchy("Employees", d.Employees, "Employee Name", "ReportsTo", "Employees");
+            // just the same thing might have been done with a single line of code:
+            // cube.AddCalculatedHierarchy("Employees", d.Employees, typeof(string), "Employee Name");
+
+            cube.AddHierarchy("Customers", d.Customers, "CompanyName", "", "Customers");
+            // Add two measures: "Quantity" and "Sales"
+            cube.AddMeasure(d.Order_Details, "Quantity");
+            // The "Sales" column must be calculated in the TOLAPCube1.OnCalculateField even handler
+            cube.AddCalculatedMeasure(d.Order_Details, typeof(double), "Sales");
+        }
+
+        private void InitLayout()
+        {
+            OlapAnalysis.BeginUpdate();
+
+            THierarchy H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Products by categories");
+            H.ShowEmptyLines = true;
+            OlapAnalysis.PivotingLast(H, TLayoutArea.laRow);
+
+            H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Date");
+            H.ShowEmptyLines = true;
+            OlapAnalysis.PivotingLast(H, TLayoutArea.laColumn);
+
+            TMeasure M = OlapAnalysis.Measures.FindByDisplayName("Sales");
+            if (M != null)
+                OlapAnalysis.Pivoting(M, TLayoutArea.laRow, null);
+
+            OlapAnalysis.EndUpdate();
+
+            SetFilters();
+        }
+
+        void SetFilters()
+        {
+            // Making invisible of the "Dairy Products" member of the "Products by categories" hierarchy.
+            THierarchy H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Products by categories");
+            TMember m = H.FindMemberByName("Dairy Products");
+            m.Visible = false;
+
+
+            // Context filtering of "Date" hierarchy by captions "Year" members' captions.
+            // The hierarchy must be placed into any of the three active areas (row, columns or pages).
+            H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Date");
+            string dateFirst = "1997";
+            string dateSecond = "1998";
+            TFilter hf = new TFilter(H.Levels[0], TOLAPFilterType.ftOnCaption, null, TOLAPFilterCondition.fcBetween, dateFirst, dateSecond);
+            // apply the filter to the level
+            H.Levels[0].Filter = hf;
+            H.ShowEmptyLines = false;
+
+
+            // Context filtering of the "Sales" measure values.
+            // The measure must be visible in the Grid.
+            TMeasure M = OlapAnalysis.Measures.FindByDisplayName("Sales");
+            // create an instance of the TMeasureFilter class
+            TMeasureFilter mf = new TMeasureFilter(M, TOLAPFilterCondition.fcGreater, "1000", null);
+            mf.RestrictsTo = TMeasureFilterRestriction.mfrFactTable;
+            M.Filter = mf;
+        }
+
+        private void Cube_OnCalculateField(object sender, TCalculateFieldArgs e)
+        {
+            if (e.ThisTable("Order Details"))
+            {
+                e.Row["Sales"] = Convert.ToDouble(e.Row["Quantity"]) * Convert.ToDouble(e.Row["UnitPrice"]) * (1 - Convert.ToDouble(e.Row["Discount"]));
+            }
+            if (e.ThisTable("Employees"))
+            {
+                e.Row["Employee Name"] = e.Row["FirstName"] + " " + e.Row["LastName"];
+            }
+        }
+    }
+}

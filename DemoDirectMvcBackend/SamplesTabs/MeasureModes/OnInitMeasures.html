@@ -1,0 +1,10 @@
+﻿private void OlapAnalysis_OnInitMeasures(object sender, EventArgs e)
+{
+    TMeasure M = OlapAnalysis.Measures.FindByDisplayName("Sales");
+
+    if (M != null)
+    {
+        //"Rank by Row" measure mode is calculated in the OnShowMeasure event handler
+        M.ShowModes.Add("Rank by row");
+    }
+}

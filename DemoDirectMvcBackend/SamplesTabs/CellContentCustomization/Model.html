@@ -1,0 +1,296 @@
+﻿namespace ROlapAspNet4Mvc.Samples.Models
+{
+    public class SamplesModel
+    {
+        private MvcOlapAnalysis _OlapAnalysis;
+        public override MvcOlapAnalysis OlapAnalysis
+        {
+            get
+            {
+                if (_OlapAnalysis == null)
+                {
+                    _OlapAnalysis = new MvcOlapAnalysis("MvcOlapAnalysis1");
+
+                    _OlapAnalysis.InitOlap += delegate { InitOlapAnalysis(); };
+
+                    OlapAnalysis.OnRenderCell += OlapAnalysisOnOnRenderCell;
+
+                    var cube = new MvcRCube
+                    {
+                        DataSet = new Northwind(),
+                        ID = "Cube_MvcOlapAnalysis1",
+                    };
+                    cube.OnCalculateField += Cube_OnCalculateField;
+                    _OlapAnalysis.Cube = cube;
+                }
+                return _OlapAnalysis;
+            }
+        }
+
+        private void InitOlapAnalysis()
+        {
+            InitOlapControl();
+            DoActive();
+            InitLayout();
+        }
+
+        private void InitOlapControl()
+        {
+            OlapAnalysis.CallbackController = "OlapAnalysis";
+            OlapAnalysis.CallbackAction = "CallbackHandler";
+            OlapAnalysis.ExportController = "OlapAnalysis";
+            OlapAnalysis.ExportAction = "ExportHandler";
+        }
+
+        private void DoActive()
+        {
+            if (OlapAnalysis.Cube.Active)
+                OlapAnalysis.ClearAxesLayout();
+
+            if (OlapAnalysis.Cube.Active == false)
+            {
+                InitCubeStructure();
+                ((MvcRCube)OlapAnalysis.Cube).FactTableName = "Order Details";
+                OlapAnalysis.Cube.Active = true;
+            }
+        }
+
+        private void InitCubeStructure()
+        {
+            var cube = OlapAnalysis.Cube as TOLAPCube;
+            var d = cube.DataSet as Northwind;
+            if (d == null)
+                throw new ApplicationException("The cube's DataSet property must be assigned before setting up the structure");
+            // Create dimensions and hierarchies
+            cube.AddHierarchy("Shippers", d.Shippers, "CompanyName", "", "Shippers");
+            // Make 3 hierarchies in the "Products" dimension: "Products", "Categories", and "Suppliers"
+            TCubeHierarchy H1 = cube.AddHierarchy("Products", d.Products, "ProductName", "", "Products");
+            TCubeHierarchy H2 = cube.AddHierarchy("Products", d.Categories, "CategoryName", "", "Categories");
+            TCubeHierarchy H3 = cube.AddHierarchy("Products", d.Suppliers, "CompanyName", "", "Suppliers");
+            // Make two composite (multilevel) hierarchies 
+            cube.MakeUpCompositeHierarchy("Products", "Products by categories", new TCubeHierarchy[] { H2, H1 });
+            cube.MakeUpCompositeHierarchy("Products", "Products by suppliers", new string[] { "Suppliers", "Products" });
+            // Add BI time hierarchies: "Year", "Quarter", "Month"...
+            cube.AddBIHierarchy("Time", d.Orders, "Year", "OrderDate", TBIMembersType.ltTimeYear);
+            cube.AddBIHierarchy("Time", d.Orders, "Quarter", "OrderDate", TBIMembersType.ltTimeQuarter);
+            cube.AddBIHierarchy("Time", d.Orders, "Month", "OrderDate", TBIMembersType.ltTimeMonthLong);
+            // ... and combine them into a single "Date" hierarchy
+            cube.MakeUpCompositeHierarchy("Time", "Date", new string[] { "Year", "Quarter", "Month" });
+
+            // The two lines add the calculated hierarchy "Employee Name" into the "Employees" dimension:
+            // The "Employee Name" column must be calculated in the TOLAPCube1.OnCalculateField even handler
+            cube.AddCalculatedColumn(d.Employees, "Employee Name", typeof(String));
+            cube.AddHierarchy("Employees", d.Employees, "Employee Name", "ReportsTo", "Employees");
+            // just the same thing might have been done with a single line of code:
+            // cube.AddCalculatedHierarchy("Employees", d.Employees, typeof(string), "Employee Name");
+
+            cube.AddHierarchy("Customers", d.Customers, "CompanyName", "", "Customers");
+            // Add two measures: "Quantity" and "Sales"
+            cube.AddMeasure(d.Order_Details, "Quantity");
+            // The "Sales" column must be calculated in the TOLAPCube1.OnCalculateField even handler
+            cube.AddCalculatedMeasure(d.Order_Details, typeof(double), "Sales");
+        }
+
+        private void InitLayout()
+        {
+            OlapAnalysis.BeginUpdate();
+
+            THierarchy H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Products by categories");
+            OlapAnalysis.PivotingLast(H, TLayoutArea.laRow);
+
+            H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Date");
+            OlapAnalysis.PivotingLast(H, TLayoutArea.laColumn);
+
+            TMeasure M = OlapAnalysis.Measures.FindByDisplayName("Sales");
+            if (M != null)
+                OlapAnalysis.Pivoting(M, TLayoutArea.laRow, null);
+
+            M = OlapAnalysis.Measures.FindByDisplayName("Quantity");
+            if (M != null)
+                OlapAnalysis.Pivoting(M, TLayoutArea.laRow, null);
+
+            OlapAnalysis.EndUpdate();
+        }
+
+        internal void OlapAnalysisOnOnRenderCell(object sender, RenderCellEventArgs e)
+        {
+            if (OlapAnalysis.AnalysisType == AnalysisType.Chart)
+                return;
+
+            if (e.Cell.CellType == TCellType.ctMember)
+            {
+                var mc = e.Cell as IMemberCell;
+                if ((mc.Member != null) && (mc.Member.Level.DisplayName == "Categories"))
+                {
+                    string s = e.Text;
+                    if (s.Contains("/"))
+                        s = s.Substring(0, s.IndexOf('/'));
+                    e.Text = "<img src=\"/Content/images/Example/" + s + ".png\">" + e.Text;
+                }
+            }
+            if (e.Cell.CellType == TCellType.ctLevel)
+            {
+                e.Text = WriteContextMenuButton(e.Text);
+            }
+            if (e.Cell.CellType == TCellType.ctData)
+            {
+                IDataCell dc = e.Cell as IDataCell;
+                if (dc.Address.Measure != null && dc.Address.Measure.DisplayName == "Quantity")
+                {
+                    if ((!dc.IsTotalHorizontal) && (SetMaxValue()))
+                    {
+                        try
+                        {
+                            Double v = Convert.ToDouble(dc.Data);
+                            double hue = (v - _minValue) / (_maxValue - _minValue) * 85;
+                            Color c = FromHSB(hue, 255, 255);
+                            e.Text = "<table width=\"100%\">
+    <tr>
+        <td align=\"left\" valign=\"middle\">
+            <img src=\"/OlapAnalysis/PaintTrend/?color =" +
+                                ColorTranslator.ToHtml(c).Substring(1) + " \">
+        </td>
+        <td align=\"right\" valign=\"middle\">
+            "
+            + e.Text + "
+        </td>
+    </tr>
+</table>";
+                        }
+                        catch
+                        {; }
+                    }
+                }
+
+                if ((dc.Address == null) || (dc.Address.MeasureMode == null)) return;
+                if (dc.Address.MeasureMode.Mode != TMeasureShowModeType.smNormal) return;
+
+                try
+                {
+                    if (dc.Address.Measure.DisplayName == "Sales")
+                    {
+                        Double d = Convert.ToDouble(30000);
+                        Double v = Convert.ToDouble(dc.Data);
+                        if (v < d) e.CellStyle.BackColor = Color.Coral;
+                    }
+                }
+                catch
+                {; }
+            }
+        }
+
+        double _maxValue = Double.MinValue;
+        double _minValue = Double.MaxValue;
+
+        private bool SetMaxValue()
+        {
+            if (_maxValue != Double.MinValue) return true;
+            if (_minValue == _maxValue) return false;
+            for (int i = OlapAnalysis.CellSet.FixedRows; i < OlapAnalysis.CellSet.RowCount; i++)
+            {
+                IDataCell d = OlapAnalysis.CellSet[OlapAnalysis.CellSet.FixedColumns, i] as IDataCell;
+                if ((d == null) || (d.Data == null) || (d.IsTotalHorizontal)) continue;
+                try
+                {
+                    double v = Convert.ToDouble(d.Data);
+                    if (v > _maxValue) _maxValue = v;
+                    if (v < _minValue) _minValue = v;
+                }
+                catch
+                {; }
+            }
+            return ((_maxValue != Double.MinValue) && (_minValue != _maxValue));
+        }
+
+        private string WriteContextMenuButton(string name)
+        {
+            var btn = new Button();
+            btn.Text = name;
+            btn.CssClass = "btn btn-default";
+            btn.UseSubmitBehavior = false;
+            btn.Attributes.Add("onclick", "RadarSoft.$('#" + OlapAnalysis.ClientID + "').data('grid').createPopup(event);");
+            var sw = new StringWriter();
+            var w = new Html32TextWriter(sw);
+            btn.RenderControl(w);
+            return sw.ToString();
+        }
+
+        private Color FromHSB(double H, double S, double B)
+        {
+            double r = B;
+            double g = B;
+            double b = B;
+            if (S != 0)
+            {
+                double max = B;
+                double dif = B * S / 255f;
+                double min = B - dif;
+
+                double h = H * 360f / 255f;
+
+                if (h < 60f)
+                {
+                    r = max;
+                    g = h * dif / 60f + min;
+                    b = min;
+                }
+                else if (h < 120f)
+                {
+                    r = -(h - 120f) * dif / 60f + min;
+                    g = max;
+                    b = min;
+                }
+                else if (h < 180f)
+                {
+                    r = min;
+                    g = max;
+                    b = (h - 120f) * dif / 60f + min;
+                }
+                else if (h < 240f)
+                {
+                    r = min;
+                    g = -(h - 240f) * dif / 60f + min;
+                    b = max;
+                }
+                else if (h < 300f)
+                {
+                    r = (h - 240f) * dif / 60f + min;
+                    g = min;
+                    b = max;
+                }
+                else if (h <= 360f)
+                {
+                    r = max;
+                    g = min;
+                    b = -(h - 360f) * dif / 60 + min;
+                }
+                else
+                {
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                }
+            }
+
+            return Color.FromArgb
+                (
+                    255,
+                    (int)Math.Round(Math.Min(Math.Max(r, 0), 255)),
+                    (int)Math.Round(Math.Min(Math.Max(g, 0), 255)),
+                    (int)Math.Round(Math.Min(Math.Max(b, 0), 255))
+                    );
+        }
+
+        private void Cube_OnCalculateField(object sender, TCalculateFieldArgs e)
+        {
+            if (e.ThisTable("Order Details"))
+            {
+                e.Row["Sales"] = Convert.ToDouble(e.Row["Quantity"]) * Convert.ToDouble(e.Row["UnitPrice"]) * (1 - Convert.ToDouble(e.Row["Discount"]));
+            }
+            if (e.ThisTable("Employees"))
+            {
+                e.Row["Employee Name"] = e.Row["FirstName"] + " " + e.Row["LastName"];
+            }
+        }
+    }
+}

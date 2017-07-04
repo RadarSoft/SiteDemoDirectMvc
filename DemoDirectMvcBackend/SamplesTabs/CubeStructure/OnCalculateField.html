@@ -1,0 +1,12 @@
+﻿private void Cube_OnCalculateField(object sender, TCalculateFieldArgs e)
+{
+    if (e.ThisTable("Order Details"))
+    {
+        e.Row["Sales"] = Convert.ToDouble(e.Row["Quantity"]) * Convert.ToDouble(e.Row["UnitPrice"]) 
+                        * (1 - Convert.ToDouble(e.Row["Discount"]));
+    }
+    if (e.ThisTable("Employees"))
+    {
+        e.Row["Employee Name"] = e.Row["FirstName"] + " " + e.Row["LastName"];
+    }
+}

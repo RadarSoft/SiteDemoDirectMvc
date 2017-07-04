@@ -1,0 +1,10 @@
+﻿namespace ROlapAspNet4Mvc.Samples.Helpers
+{
+    public static class HtmlHelperExtension
+    {
+        public static HtmlString OlapSample(this HtmlHelper helper, SamplesModel model)
+        {
+            return model.OlapAnalysis.Render();
+        }
+    }
+}

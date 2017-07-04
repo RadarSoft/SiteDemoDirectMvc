@@ -1,0 +1,7 @@
+﻿[AcceptVerbs(HttpVerbs.Post)]
+public BinaryStreamResult ExportHandler()
+{
+    var model = new SamplesModel();
+    var olapControl = model.CreateOlapAnalysis();
+    return olapControl.DoExport();
+}

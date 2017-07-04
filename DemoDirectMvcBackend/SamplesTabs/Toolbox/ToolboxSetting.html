@@ -1,0 +1,58 @@
+﻿public MvcOlapAnalysis OlapAnalysis
+{
+    get
+    {
+        if (_OlapAnalysis == null)
+        {
+            _OlapAnalysis = new MvcOlapAnalysis("MvcOlapAnalysis1");
+
+            _OlapAnalysis.InitOlap += delegate { InitOlapAnalysis(); };
+
+            _OlapAnalysis.ToolboxItemAction += OlapAnalysis_ToolboxItemAction;
+
+            var cube = new MvcRCube
+            {
+                DataSet = new Northwind(),
+                ID = "Cube_MvcOlapAnalysis1",
+            };
+            cube.OnCalculateField += Cube_OnCalculateField;
+            _OlapAnalysis.Cube = cube;
+        }
+        return _OlapAnalysis;
+    }
+}
+
+private void InitOlapControl()
+{
+    OlapAnalysis.CallbackController = "OlapAnalysis";
+    OlapAnalysis.CallbackAction = "CallbackHandler";
+    OlapAnalysis.ExportController = "OlapAnalysis";
+    OlapAnalysis.ExportAction = "ExportHandler";
+
+    OlapAnalysis.AddCalculatedMeasureButton.Visible = false;
+    OlapAnalysis.ClearLayoutButton.Visible = false;
+    OlapAnalysis.PivotAreaButton.Visible = false;
+    OlapAnalysis.AllAreasButton.Visible = false;
+    OlapAnalysis.DataAreaButton.Visible = false;
+    OlapAnalysis.ModeButton.Visible = false;
+    OlapAnalysis.ResizingButton.Visible = false;
+    OlapAnalysis.DelayPivotingButton.Visible = false;
+    OlapAnalysis.MeasurePlaceButton.Visible = false;
+    OlapAnalysis.ExportCSVButton.Visible = false;
+    OlapAnalysis.ExportHTMLButton.Visible = false;
+    OlapAnalysis.ExportJPEGButton.Visible = false;
+    OlapAnalysis.ExportPDFButton.Visible = false;
+    OlapAnalysis.ExportXLSButton.Visible = false;
+    OlapAnalysis.ExportXLSXButton.Visible = false;
+
+    OlapAnalysis.SaveLayoutButton.Image = "/Content/images/save.png";
+    OlapAnalysis.LoadLayoutButton.Image = "/Content/images/open.png";
+
+    OlapAnalysis.CustomButtons.Clear();
+    MvcCustomToolboxButton b = new MvcCustomToolboxButton();
+    b.ButtonID = "CustomButton_1";
+    b.Text = "Custom button";
+    b.Tooltip = "Custom button";
+    b.ClientScript = "alert('Custom button has been clicked.')";
+    OlapAnalysis.CustomButtons.Add(b);
+}

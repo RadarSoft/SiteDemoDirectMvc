@@ -1,0 +1,33 @@
+﻿private void InitOlapControl()
+{
+    OlapAnalysis.CallbackController = "OlapAnalysis";
+    OlapAnalysis.CallbackAction = "CallbackHandler";
+    OlapAnalysis.ExportController = "OlapAnalysis";
+    OlapAnalysis.ExportAction = "ExportHandler";
+
+    OlapAnalysis.AnalysisType = AnalysisType.Chart;
+}
+
+private void InitLayout()
+{
+    OlapAnalysis.BeginUpdate();
+
+    THierarchy H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Date");
+    OlapAnalysis.PivotingLast(H, TLayoutArea.laColumn);
+    H.Levels[2].Visible = true;
+
+    TMeasure M = OlapAnalysis.Measures.FindByDisplayName("Sales");
+    OlapAnalysis.Pivoting(M, TLayoutArea.laRow);
+
+    M.DefineChartMeasureType(SeriesType.StackedArea);
+
+    H = OlapAnalysis.Dimensions.FindHierarchyByDisplayName("Shippers");
+    OlapAnalysis.PivotingLast(H, TLayoutArea.laColor);
+
+    M = OlapAnalysis.Measures.FindByDisplayName("Quantity");
+    OlapAnalysis.Pivoting(M, TLayoutArea.laRow);
+
+    M.DefineChartMeasureType(SeriesType.Column);
+
+    OlapAnalysis.EndUpdate();
+}

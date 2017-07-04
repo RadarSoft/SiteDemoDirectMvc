@@ -1,0 +1,560 @@
+﻿[
+  {
+    "sample": "Mvc",
+    "tabs": [
+      {
+        "title": "Controller",
+        "file": "Controller.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "View",
+        "file": "View.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Helper",
+        "file": "Helper.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "InitControls",
+    "tabs": [
+      {
+        "title": "Сontrols initialization",
+        "file": "InitOlap.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "sample": "Mvc",
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "CubeStructure",
+    "tabs": [
+      {
+        "title": "Cube сonstructing",
+        "file": "InitCubeStructure.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Calculated fields",
+        "file": "OnCalculateField.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Activation",
+        "file": "Activation.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "sample": "Mvc",
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Callbacks",
+    "tabs": [
+      {
+        "title": "Callback handler",
+        "file": "CallbackHandler.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "sample": "Mvc",
+        "title": "Controller",
+        "file": "Controller.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "sample": "Mvc",
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Export",
+    "tabs": [
+      {
+        "title": "Export handler",
+        "file": "ExportHandler.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "sample": "Mvc",
+        "title": "Controller",
+        "file": "Controller.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "sample": "Mvc",
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Drilling",
+    "tabs": [
+      {
+        "title": "Member drilling initialization",
+        "file": "MemberDrilling.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Pivoting",
+    "tabs": [
+      {
+        "title": "Layout initialization",
+        "file": "InitLayout.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "sample": "Mvc",
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Sorting",
+    "tabs": [
+      {
+        "title": "Make sorting",
+        "file": "InitLayout.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Filtering",
+    "tabs": [
+      {
+        "title": "Setting filters",
+        "file": "Filtering.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Grouping",
+    "tabs": [
+      {
+        "title": "Create group",
+        "file": "CreateGroup.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "CalculatedFields",
+    "tabs": [
+      {
+        "title": "Calculated fields",
+        "file": "CalculatedFields.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "OnCalculateField event handler",
+        "file": "OnCalculateField.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "MeasureModes",
+    "tabs": [
+      {
+        "title": "Showing measure modes",
+        "file": "ShowingMeasureModes.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "OnInitMeasures event handler",
+        "file": "OnInitMeasures.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "OnShowMeasure event handler",
+        "file": "OnShowMeasure.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "CellContentCustomization",
+    "tabs": [
+      {
+        "title": "Adding of OnRenderCell handler",
+        "file": "AddingOnRenderCellHandler.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "OnRenderCell event handler",
+        "file": "OnRenderCellHandler.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "PaintTrend action",
+        "file": "PaintTrendAction.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "ImageStreamResult class",
+        "file": "ImageStreamResult.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "ColorModifications",
+    "tabs": [
+      {
+        "title": "Color modification initialization",
+        "file": "ColorModificationAreas.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "InfoAttributes",
+    "tabs": [
+      {
+        "title": "Info attributes",
+        "file": "InfoAttributes.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "CellComments",
+    "tabs": [
+      {
+        "title": "Adding comments to cells",
+        "file": "CellComments.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "ContextMenu",
+    "tabs": [
+      {
+        "title": "OnShowContextMenu event handler",
+        "file": "OnShowContextMenu.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Toolbox",
+    "tabs": [
+      {
+        "title": "Toolbox setting",
+        "file": "ToolboxSetting.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "ToolboxItemAction event handler",
+        "file": "ToolboxItemAction.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "ChartTypes",
+    "tabs": [
+      {
+        "title": "Chart initialization",
+        "file": "InitChart.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "MultiSeriesChart",
+    "tabs": [
+      {
+        "title": "Multi-series initialization",
+        "file": "InitMultiSeries.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "SeriesModifications",
+    "tabs": [
+      {
+        "title": "Modifications initialization",
+        "file": "InitModifications.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "Angular2",
+    "tabs": [
+      {
+        "title": "olap.component.ts",
+        "file": "Component.html",
+        "code": true,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "olap.service.ts",
+        "file": "Service.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Web API Controller",
+        "file": "ApiController.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "MVC Controller",
+        "sample": "Mvc",
+        "file": "Controller.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "Model",
+        "sample": "Mvc",
+        "file": "Model.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      },
+      {
+        "title": "View",
+        "file": "View.html",
+        "code": true,
+        "active": false,
+        "content": ""
+      }
+    ]
+  },
+  {
+    "sample": "",
+    "tabs": [
+      {
+        "title": "",
+        "file": "",
+        "code": false,
+        "active": true,
+        "content": ""
+      },
+      {
+        "title": "",
+        "file": "",
+        "code": false,
+        "active": true,
+        "content": ""
+      }
+    ]
+  }
+]

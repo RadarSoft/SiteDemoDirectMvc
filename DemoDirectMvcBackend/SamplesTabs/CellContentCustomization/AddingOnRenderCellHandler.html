@@ -1,0 +1,23 @@
+﻿public override MvcOlapAnalysis OlapAnalysis
+{
+    get
+    {
+        if (_OlapAnalysis == null)
+        {
+            _OlapAnalysis = new MvcOlapAnalysis("MvcOlapAnalysis1");
+
+            _OlapAnalysis.InitOlap += delegate { InitOlapAnalysis(); };
+
+            OlapAnalysis.OnRenderCell += OlapAnalysisOnOnRenderCell;
+
+            var cube = new MvcRCube
+            {
+                DataSet = new Northwind(),
+                ID = "Cube_MvcOlapAnalysis1",
+            };
+            cube.OnCalculateField += Cube_OnCalculateField;
+            _OlapAnalysis.Cube = cube;
+        }
+        return _OlapAnalysis;
+    }
+}

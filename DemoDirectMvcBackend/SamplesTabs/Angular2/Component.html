@@ -1,0 +1,37 @@
+﻿import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Response } from '@angular/http';
+
+import { OlapService } from './olap.service';
+
+@Component({
+    selector: 'olap-comp',
+    template: `<div #olapContainer></div>`,
+    providers: [SamplesService]
+})
+
+export class OlapComponent implements OnInit {
+
+    @ViewChild("olapContainer")
+    radarCubeContainer: ElementRef;
+
+    constructor(private olapService: OlapService) { }
+
+    ngOnInit() {
+        loadSample();
+    }
+
+    loadSample() {
+        this.radarCubeContainer.nativeElement.innerHTML = "";
+        this.olapService.loadRadarCube(sample).subscribe((jsonResponce) =>
+            {
+                this.renderRadarCube(jsonResponce);
+            }
+        );
+    }
+
+    renderRadarCube(responce: any) {
+        this.radarCubeContainer.nativeElement.innerHTML = responce.data;
+        var grid = new RadarSoft.MvcOlapAnalysis();
+        grid.initialize(responce.settings);
+    }
+}

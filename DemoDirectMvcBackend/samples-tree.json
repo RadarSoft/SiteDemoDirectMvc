@@ -1,0 +1,125 @@
+[
+  {
+    "text": "Getting started",
+    "backColor": "#23527f",
+    "color": "#FFFFFF",
+    "sample": "GettingStarted",
+    "nodes": [
+      {
+        "text": "Data source",
+        "sample": "DataSource"
+      },
+      {
+        "text": "MVC",
+        "sample": "Mvc",
+        "nodes": [
+          {
+            "text": "Controls initialization",
+            "sample": "InitControls"
+          },
+          {
+            "text": "Cube constructing",
+            "sample": "CubeStructure"
+          },
+          {
+            "text": "Define layout",
+            "sample": "Pivoting"
+          },
+          {
+            "text": "Callbacks' handler",
+            "sample": "Callbacks"
+          },
+          {
+            "text": "Export handler",
+            "sample": "Export"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Grid",
+    "sample": "Grid",
+    "backColor": "#23527f",
+    "color": "#FFFFFF",
+    "nodes": [
+      {
+        "text": "Members drilling",
+        "sample": "Drilling"
+      },
+      {
+        "text": "Members sorting",
+        "sample": "Sorting"
+      },
+      {
+        "text": "Filtering",
+        "sample": "Filtering"
+      },
+      {
+        "text": "Grouping",
+        "sample": "Grouping"
+      },
+      {
+        "text": "Calculated fields",
+        "sample": "CalculatedFields"
+      },
+      {
+        "text": "Measure show modes",
+        "sample": "MeasureModes"
+      },
+      {
+        "text": "Cell content customization",
+        "sample": "CellContentCustomization"
+      },
+      {
+        "text": "Color modifications",
+        "sample": "ColorModifications"
+      },
+      {
+        "text": "Info attributes",
+        "sample": "InfoAttributes"
+      },
+      {
+        "text": "Comments for cells",
+        "sample": "CellComments"
+      },
+      {
+        "text": "Context menu customization",
+        "sample": "ContextMenu"
+      },
+      {
+        "text": "Toolbox customization",
+        "sample": "Toolbox"
+      }
+    ]
+  },
+  {
+    "text": "Chart",
+    "sample": "Chart",
+    "backColor": "#23527f",
+    "color": "#FFFFFF",
+    "selectable": true,
+    "nodes": [
+      {
+        "text": "Chart types",
+        "sample": "ChartTypes",
+        "selectable": true
+      },
+      {
+        "text": "Multi-series Chart",
+        "sample": "MultiSeriesChart"
+      },
+      {
+        "text": "Series modifications",
+        "sample": "SeriesModifications"
+      }
+    ]
+  },
+  {
+    "text": "Angular 2",
+    "backColor": "#23527f",
+    "color": "#FFFFFF",
+    "sample": "Angular2",
+    "selectable": true
+  }
+]

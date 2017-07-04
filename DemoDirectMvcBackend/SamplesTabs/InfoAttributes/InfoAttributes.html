@@ -1,0 +1,15 @@
+﻿// Make the attribute hierarchy "Customers" in the "Customers" dimension.
+TCubeHierarchy H = cube.AddHierarchy("Customers", d.Customers, "CompanyName", "", "Customers");
+
+//The source field of an attribute should be taken from the table of its hierarchy.
+TInfoAttribute a = new TInfoAttribute();
+a.DisplayName = "Phone";
+a.SourceField = "Phone";
+a.DisplayMode = AttributeDispalyMode.AsColumn;
+H.InfoAttributes.Add(a);
+
+a = new TInfoAttribute();
+a.DisplayName = "City";
+a.SourceField = "City";
+a.DisplayMode = AttributeDispalyMode.AsTooltip;
+H.InfoAttributes.Add(a);

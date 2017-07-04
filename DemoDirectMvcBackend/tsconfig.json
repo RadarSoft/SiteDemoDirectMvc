@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "system",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [ "es2015", "dom" ],
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "declaration": false
+  }
+}
+
+//{
+//  "compilerOptions": {
+//    "target": "es5",
+//    "module": "system",
+//    "moduleResolution": "node",
+//    "sourceMap": true,
+//    "emitDecoratorMetadata": true,
+//    "experimentalDecorators": true,
+//    "lib": [ "es2015", "dom" ],
+//    "noImplicitAny": true,
+//    "noEmitOnError": true,
+//    "removeComments": false,
+//    "suppressImplicitAnyIndexErrors": true,
+//    "declaration": false,
+//    "outDir": "Content/rsolap",
+//    "outFile": "Content/rsolap/rsMvcOlapAnalysis.js"
+//  },
+//  "include": [
+//    "Content/**/*"
+//  ],
+//  "exclude": [ "node_modules", "app" ]
+//}
+
+

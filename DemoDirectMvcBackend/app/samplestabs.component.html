@@ -1,0 +1,20 @@
+﻿<div [style.display]="panelVisibility==true?'block':'none'" class="panel panel-default tabs-panel">
+    <div class="panel-heading" style="padding: 0; border-bottom-width: 0">
+        <ul class="nav nav-tabs">
+            <li *ngFor="let tab of sampleTabs; let i = index" [class.active]="tab.active">
+                <a data-toggle="tab" href="#panel_{{i}}">{{tab.title}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div *ngFor="let tab of sampleTabs; let i = index" id="panel_{{i}}" class="tab-pane fade" [class.active]="tab.active" [class.in]="tab.active">
+                <pre *ngIf="tab.code"><code>{{tab.content}}</code></pre>
+                <p *ngIf="!tab.code">
+                    {{tab.content}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+ 
