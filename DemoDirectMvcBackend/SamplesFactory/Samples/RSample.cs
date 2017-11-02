@@ -119,7 +119,8 @@ namespace SamplesFactory
             // cube.AddCalculatedHierarchy("Employees", d.Employees, typeof(string), "Employee Name");
 
             // Add two measures: "Quantity" and "Sales"
-            cube.AddMeasure(d.Order_Details, "Quantity");
+            var measure = cube.AddMeasure(d.Order_Details, "Quantity");
+            measure.DefaultFormat = "#,###";
             // The "Sales" column must be calculated in the TOLAPCube1.OnCalculateField even handler
             cube.AddCalculatedMeasure(d.Order_Details, typeof(double), "Sales");
         }

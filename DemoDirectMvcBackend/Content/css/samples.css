@@ -131,3 +131,11 @@ pre {
     margin: 0 !important;
     padding: 5px !important;
 }
+
+.ui-menu .ui-menu-item {
+    list-style-image: none !important;
+}
+
+#olapgrid_rsPopup {
+    z-index: 10;
+}
